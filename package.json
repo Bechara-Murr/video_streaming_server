@@ -1,0 +1,48 @@
+{
+  "name": "video_streaming_server",
+  "version": "1.0.0",
+  "description": "A node.js server that will be used to store, fetch and stream video clips.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch src/**/*.ts --exec ts-node src/index.ts",
+    "lint": "eslint 'src/**/*.ts'",
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bechara-Murr/video_streaming_server.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Streams",
+    "TypeScript",
+    "TypeORM",
+    "Clean",
+    "Architecture"
+  ],
+  "author": "Bechara Murr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bechara-Murr/video_streaming_server/issues"
+  },
+  "homepage": "https://github.com/Bechara-Murr/video_streaming_server#readme",
+  "dependencies": {
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "get-video-duration": "^4.1.0",
+    "pg": "^8.16.3",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.12",
+    "eslint": "^9.30.1",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
