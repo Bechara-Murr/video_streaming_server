@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { CreateVideoDTO } from '../../application/dtos/video/CreateVideoDTO';
 import { CreateVideo } from '../../application/use-cases/video/CreateVideo';
 import { GetAllVideos } from '../../application/use-cases/video/GetAllVideos';
+import { StreamVideo } from '../../application/use-cases/video/StreamVideo';
 import { VideoPresenter } from '../presenters/VideoPresenter';
 import { Video } from '../../domain/entities/Video';
 import { VideoDataDTO } from '../dtos/VideoDataDTO';
@@ -9,19 +9,22 @@ import { UploadManager } from '../helpers/UploadManager';
 import { Genre } from '@/domain/entities/Genre';
 import { getVideoDurationInSeconds } from 'get-video-duration';
 import { toNumber, formatDuration } from '../helpers/VideoHelperFunctions';
+import path, { join } from 'path';
+import { DeleteVideo } from '@/use_cases/use-cases/video/DeleteVideo';
+import { tmpdir } from 'os';
 
 export class VideoController {
   constructor(
     private readonly createVideo: CreateVideo,
     private readonly getAllVideos: GetAllVideos,
+    private readonly streamVideo: StreamVideo,
+    private readonly deleteVideo: DeleteVideo,
   ) {}
 
   async create(req: Request, res: Response) {
     const { fields, filePath, fileType } =
       await UploadManager.handleVideoUpload(req);
-
-    const duration = await getVideoDurationInSeconds(filePath);
-    console.log(`Video duration: ${duration}`);
+    const duration = await getVideoDurationInSeconds(join(tmpdir(), filePath));
 
     const result = await this.createVideo.execute({
       title: fields.title,
@@ -55,5 +58,44 @@ export class VideoController {
     );
 
     return res.status(200).json({ data: mappedVideos });
+  }
+
+  async stream(req: Request, res: Response) {
+    try {
+      const videoPath = req.params.path;
+      const rangeHeader = req.headers.range;
+
+      const result = await this.streamVideo.execute({
+        videoPath,
+        rangeHeader,
+      });
+
+      res.writeHead(result.statusCode, result.headers);
+      result.stream.pipe(res);
+    } catch (error) {
+      console.log({ error });
+    }
+  }
+
+  watch(req: Request, res: Response) {
+    const filePath = path.join(
+      __dirname,
+      '..',
+      '..',
+      'infrastructure',
+      'web',
+      'public',
+      'index.html',
+    );
+    return res.sendFile(filePath);
+  }
+
+  async delete(req: Request, res: Response) {
+    const videoId = req.params.id;
+    console.log(1);
+
+    await this.deleteVideo.execute(videoId);
+    console.log(2);
+    return res.status(200).json('Deleted Successfully');
   }
 }

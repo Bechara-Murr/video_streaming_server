@@ -4,5 +4,5 @@ export enum Genre {
   THRILLER = 'Thriller',
   DOCUMENTARY = 'Documentary',
   ROMANTIC_COMEDY = 'Romantic Comedy',
-  FANTASIE = 'Fantasy',
+  FANTASIE = 'Fantasie',
 }

@@ -3,6 +3,7 @@ import { AppDataSource } from '../data-source';
 import { VideoRepository } from '@/use_cases/ports/video/VideoRepository.interface';
 import { VideoOrm } from '../entities/Video.orm';
 import { Video } from '../../../domain/entities/Video';
+import path from 'path';
 
 export class TypeOrmVideoRepository implements VideoRepository {
   private readonly ormRepo: Repository<VideoOrm>;
@@ -79,5 +80,31 @@ export class TypeOrmVideoRepository implements VideoRepository {
       genre: video.genre,
     });
     return await this.ormRepo.save(ormUser);
+  }
+
+  async getVideoPathById(videoId: string): Promise<string> {
+    // TODO: Add Error handling.
+    const video = await this.ormRepo.findOneBy({ id: videoId });
+
+    return path.resolve(__dirname, `../../../../${video?.path}`);
+  }
+
+  async streamVideo(): Promise<null> {
+    return new Promise((resolve, reject) => {
+      return resolve(null);
+    });
+  }
+
+  async deleteVideo(id: string): Promise<boolean> {
+    try {
+      await this.ormRepo.delete(id);
+      return new Promise((resolve, reject) => {
+        return resolve(true);
+      });
+    } catch (error) {
+      return new Promise((resolve, reject) => {
+        return reject(false);
+      });
+    }
   }
 }

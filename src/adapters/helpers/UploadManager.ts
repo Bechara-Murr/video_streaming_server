@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { createWriteStream } from 'fs';
-// import { tmpdir } from 'os';
+import { tmpdir } from 'os';
 import { join } from 'path';
 import { randomUUID } from 'crypto';
 
@@ -25,8 +25,7 @@ export class UploadManager {
       let fileStream: ReturnType<typeof createWriteStream> | null = null;
       let filePath = '';
       let fileType = '';
-      let currentField = '';
-      let isFile = false;
+      let fileSaveName = '';
 
       req.setEncoding('binary');
 
@@ -50,9 +49,11 @@ export class UploadManager {
 
             if (!name || !filename) continue;
 
-            isFile = true;
             const ext = filename.split('.').pop() || 'bin';
-            filePath = join('', `${randomUUID()}.${ext}`);
+            fileSaveName = `${randomUUID()}.${ext}`;
+            filePath = join(tmpdir(), fileSaveName);
+            console.log({ filePath });
+
             fileStream = createWriteStream(filePath);
 
             const start = part.indexOf('\r\n\r\n') + 4;
@@ -76,7 +77,7 @@ export class UploadManager {
 
       req.on('end', () => {
         if (fileStream && !fileStream.closed) fileStream.end();
-        resolve({ fields, filePath, fileType });
+        resolve({ fields, filePath: fileSaveName, fileType });
       });
 
       req.on('error', reject);
