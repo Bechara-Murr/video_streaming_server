@@ -3,11 +3,11 @@ import { VideoOrm } from './entities/Video.orm';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
+  host: 'postgres',
   port: 5432,
   username: 'postgres',
-  password: 'AVerySecretPassword',
-  database: 'postgres',
+  password: 'postgres',
+  database: 'videodb',
   synchronize: true,
   logging: true,
   entities: [VideoOrm],
