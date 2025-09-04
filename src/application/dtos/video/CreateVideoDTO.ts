@@ -1,4 +1,4 @@
-import { Genre } from '@/domain/entities/Genre';
+import { Genre } from '@/domain/entities/Video/Genre';
 
 export type CreateVideoDTO = {
   title: string;

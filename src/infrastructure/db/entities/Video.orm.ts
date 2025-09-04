@@ -1,4 +1,4 @@
-import { Genre } from '../../../domain/entities/Genre';
+import { Genre } from '../../../domain/entities/Video/Genre';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('videos')

@@ -1,3 +1,4 @@
+import { isValidId } from '../../validators/general-type-validator';
 import {
   isPasswordSafe,
   isValidEmail,
@@ -14,6 +15,9 @@ export class User {
     public isVerified: boolean,
     public phoneNumber: string,
   ) {
+    if (!isValidId(id)) {
+      throw new Error(`The id is not a valid UUID.`);
+    }
     if (!isValidEmail(email)) {
       throw new Error(`Please enter a valid email.`);
     }
