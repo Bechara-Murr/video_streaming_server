@@ -5,10 +5,10 @@ import { GetAllVideos } from '../../../application/use-cases/video/GetAllVideos'
 import { StreamVideo } from '../../../application/use-cases/video/StreamVideo';
 import { VideoController } from '../../../adapters/controllers/video.controller';
 import { DeleteVideo } from '../../../application/use-cases/video/DeleteVideo';
-import { NotificationFactoryImpl } from '@/infrastructure/notifications/NotificationFactoryImpl';
-import { NotificationFactory } from '../../../application/ports/notification/NotificationFactory.interface';
+// import { NotificationFactoryImpl } from '@/infrastructure/notifications/NotificationFactoryImpl';
+// import { NotificationFactory } from '../../../application/ports/notification/NotificationFactory.interface';
 
-export function buildVideoRouter(notificationFactory: NotificationFactory) {
+export function buildVideoRouter(/*notificationFactory: NotificationFactory*/) {
   const videosRouter = Router();
   const repo = new TypeOrmVideoRepository();
 

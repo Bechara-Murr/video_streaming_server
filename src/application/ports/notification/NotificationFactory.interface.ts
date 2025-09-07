@@ -1,5 +1,7 @@
-import NotificationService from './NotificationService.interface';
+import { NotificationService } from './NotificationService.interface';
 
 export interface NotificationFactory {
-    create(channel: 'email' | 'push'): NotificationService;
+  send(channel: 'email' | 'push', to: string, message: string): Promise<void>;
+  getEmailService(): NotificationService;
+  getPushNotificationService(): NotificationService;
 }
