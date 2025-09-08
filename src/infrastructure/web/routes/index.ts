@@ -7,7 +7,7 @@ export function buildAppRouter(
 ): Router {
   const router = Router();
 
-  router.use('/videos', buildVideoRouter(notificationFactory));
+  router.use('/videos', buildVideoRouter());
 
   return router;
 }
