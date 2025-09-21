@@ -15,14 +15,15 @@ export class NotificationFactoryImpl implements NotificationFactory {
   async send(
     channel: 'email' | 'push',
     to: string,
+    title: string,
     message: string,
   ): Promise<void> {
     switch (channel) {
       case 'email':
-        await this.emailService.send(to, message);
+        await this.emailService.send(to, title, message);
         break;
       case 'push':
-        await this.pushNotificationService.send(to, message);
+        await this.pushNotificationService.send(to, title, message);
         break;
       default:
         throw new Error(`Unsupported channel: ${channel}`);

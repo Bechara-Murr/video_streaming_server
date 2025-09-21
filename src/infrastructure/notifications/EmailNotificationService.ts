@@ -15,15 +15,14 @@ export class EmailNotificationService implements NotificationService {
     });
   }
 
-  async send(to: string, message: string): Promise<void> {
+  async send(to: string, subject: string, message: string): Promise<void> {
     await this.transporter.sendMail({
       from:
         process.env.SMTP_FROM ||
         '"Video Streaming" <no-reply@video-streamer.com>',
       to,
-      subject: 'Welcome',
-      text: message,
-      html: `<p>${message}</p>`,
+      subject: subject,
+      html: message,
     });
   }
 }
