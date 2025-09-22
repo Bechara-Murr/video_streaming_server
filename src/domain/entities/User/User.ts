@@ -2,29 +2,86 @@ import { isValidId } from '../../validators/general-type-validator';
 import {
   isPasswordSafe,
   isValidEmail,
+  isPhoneNumberSafe,
 } from '../../validators/user-type-validator';
+import {
+  wrongEmailFormat,
+  unsafePassword,
+  wronUUIDFormat,
+  invalidPhoneNumber,
+} from '../../../utils/globals/errorMessages';
 
 export class User {
   constructor(
-    public readonly id: string,
-    public firstName: string,
-    public lastName: string,
-    public email: string,
-    public password: string,
-    public dateOfBirth: Date,
-    public isVerified: boolean,
-    public phoneNumber: string,
+    private readonly id: string | null,
+    private firstName: string,
+    private lastName: string,
+    private email: string,
+    private phoneNumber: string,
+    private password: string | null,
+    private dateOfBirth: Date,
+    private readonly createdAt: Date,
+    private lastModifiedAt: Date,
+    private isVerified: boolean,
+    private verificationCode: string | null,
+    private verificationExpiry: Date,
+    private googleToken: string | null,
+    private appleToken: string | null,
   ) {
-    if (!isValidId(id)) {
-      throw new Error(`The id is not a valid UUID.`);
+    if (id && !isValidId(id)) {
+      throw new Error(wronUUIDFormat);
     }
     if (!isValidEmail(email)) {
-      throw new Error(`Please enter a valid email.`);
+      throw new Error(wrongEmailFormat);
     }
-    if (!isPasswordSafe(password)) {
-      throw new Error(
-        `Password should consist of at least 8 characters, 1 number, 1 uppercase letter, 1 lowercase letter and 1 special character.`,
-      );
+    if (password && !isPasswordSafe(password)) {
+      throw new Error(unsafePassword);
     }
+    if (!isPhoneNumberSafe(phoneNumber)) {
+      throw new Error(invalidPhoneNumber);
+    }
+  }
+
+  getId(): string | null {
+    return this.id;
+  }
+  getFirstName(): string {
+    return this.firstName;
+  }
+  getLastName(): string {
+    return this.lastName;
+  }
+  getEmail(): string {
+    return this.email;
+  }
+  getPhoneNumber(): string {
+    return this.phoneNumber;
+  }
+  getPassword(): string | null {
+    return this.password;
+  }
+  getDateOfBirth(): Date {
+    return this.dateOfBirth;
+  }
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
+  getLastModifiedAt(): Date {
+    return this.lastModifiedAt;
+  }
+  getIsVerified(): boolean {
+    return this.isVerified;
+  }
+  getVerificationCode(): string | null {
+    return this.verificationCode;
+  }
+  getVerificationExpiry(): Date {
+    return this.verificationExpiry;
+  }
+  getGoogleToken(): string | null {
+    return this.googleToken;
+  }
+  getAppleToken(): string | null {
+    return this.appleToken;
   }
 }

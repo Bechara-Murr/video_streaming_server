@@ -1,5 +1,4 @@
 import express from 'express';
-import { buildVideoRouter } from './routes/videos.routes';
 import { AppDataSource } from '../db/data-source';
 import { join } from 'path';
 import { NotificationFactoryImpl } from '../notifications/NotificationFactoryImpl';

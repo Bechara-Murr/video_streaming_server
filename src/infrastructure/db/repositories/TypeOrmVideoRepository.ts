@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { AppDataSource } from '../data-source';
 import { VideoRepository } from '@/use_cases/ports/video/VideoRepository.interface';
 import { VideoOrm } from '../entities/Video.orm';
-import { Video } from '../../../domain/entities/Video';
+import { Video } from '../../../domain/entities/Video/Video';
 import path from 'path';
 
 export class TypeOrmVideoRepository implements VideoRepository {
