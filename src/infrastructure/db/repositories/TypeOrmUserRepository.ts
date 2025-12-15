@@ -66,4 +66,19 @@ export class TypeOrmUserRepository implements UserRepository {
       saved.appleToken,
     );
   }
+
+  async createAccessToken(input: {
+    accessToken: string;
+    userId: string;
+    expiresAt: Date;
+    isValid?: boolean;
+  }): Promise<void> {
+    // const row = this.accessTokenRepo.create({
+    //   token: input.accessToken,
+    //   user: { id: input.userId } as { id: string },
+    //   expiresAt: input.expiresAt,
+    //   isValid: input.isValid ?? true,
+    // });
+    // await this.accessTokenRepo.save(row);
+  }
 }

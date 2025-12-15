@@ -8,3 +8,7 @@ export const passwordsMismatch: string =
 export const wronUUIDFormat: string = 'The id is not a valid UUID.';
 export const invalidVideoType: string = 'files are not allowed';
 export const invalidPhoneNumber: string = 'Please enter a valid phone number';
+export const invalidCredentials: string = 'Invalid email or password';
+export const accountNotVerified: string =
+  'Please verify your account to continue';
+export const unexpectedLoginError: string = 'Unexpected error during login';
