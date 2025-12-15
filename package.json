@@ -10,6 +10,8 @@
     "lint": "eslint 'src/**/*.ts'",
     "test": "jest",
     "docker-dev:build": "docker build -f Dockerfile.dev -t streamer:dev .",
+    "docker-compose-dev-rebuild:run": "docker compose -f docker-compose.dev.yml down -v && docker compose -f docker-compose.dev.yml build",
+    "docker-compose-dev:run": "docker compose -f docker-compose.dev.yml up",
     "system-dev:start": "docker compose -f docker-compose.dev.yml up --build"
   },
   "repository": {
