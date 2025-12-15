@@ -1,4 +1,5 @@
-import { isValidFileType } from '../validators/video-type-validator';
+import { isValidId } from '../../validators/general-type-validator';
+import { isValidFileType } from '../../validators/video-type-validator';
 import { Genre } from './Genre';
 
 export class Video {
@@ -13,6 +14,9 @@ export class Video {
     public fileType: string,
     public genre: Genre,
   ) {
+    if (!isValidId(id)) {
+      throw new Error(`The id is not a valid UUID.`);
+    }
     if (!isValidFileType(fileType)) {
       throw new Error(`${fileType} files are not allowed`);
     }

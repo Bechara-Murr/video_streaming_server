@@ -21,12 +21,12 @@
       "@/adapters/*": ["src/adapters/*"],
       "@/infrastructure/*": ["src/infrastructure/*"]
     },
-    "types": ["node"],
+    "types": ["node", "jest"],
     "typeRoots": ["node_modules/@types"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "*.test.ts"],
   "exclude": ["node_modules", "dist"]
 }

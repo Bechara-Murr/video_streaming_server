@@ -1,4 +1,4 @@
-import { Video } from '@/domain/entities/Video';
+import { Video } from '@/domain/entities/Video/Video';
 import { isValidFileType } from '../../../domain/validators/video-type-validator';
 import { CreateVideoDTO } from '@/use_cases/dtos/video/CreateVideoDTO';
 import { VideoRepository } from '@/use_cases/ports/video/VideoRepository.interface';
@@ -20,7 +20,7 @@ export class CreateVideo {
 
       return Result.ok(video);
     } catch (err) {
-      return Result.fail(`Unexpected error during user creation ${err}.`);
+      return Result.fail(`Unexpected error during video creation ${err}.`);
     }
   }
 }

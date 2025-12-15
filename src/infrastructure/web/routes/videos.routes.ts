@@ -5,28 +5,33 @@ import { GetAllVideos } from '../../../application/use-cases/video/GetAllVideos'
 import { StreamVideo } from '../../../application/use-cases/video/StreamVideo';
 import { VideoController } from '../../../adapters/controllers/video.controller';
 import { DeleteVideo } from '../../../application/use-cases/video/DeleteVideo';
+// import { NotificationFactoryImpl } from '@/infrastructure/notifications/NotificationFactoryImpl';
+// import { NotificationFactory } from '../../../application/ports/notification/NotificationFactory.interface';
 
-const router = Router();
+export function buildVideoRouter(/*notificationFactory: NotificationFactory*/) {
+  const videosRouter = Router();
+  const repo = new TypeOrmVideoRepository();
 
-const repo = new TypeOrmVideoRepository();
+  // Wire up dependencies
+  const createVideo = new CreateVideo(repo);
+  const getAllVideos = new GetAllVideos(repo);
+  const streamVideo = new StreamVideo();
+  const deleteVideo = new DeleteVideo(repo);
+  const videoController = new VideoController(
+    createVideo,
+    getAllVideos,
+    streamVideo,
+    deleteVideo,
+  );
 
-// Wire up dependencies
-const createVideo = new CreateVideo(repo);
-const getAllVideos = new GetAllVideos(repo);
-const streamVideo = new StreamVideo();
-const deleteVideo = new DeleteVideo(repo);
-const videoController = new VideoController(
-  createVideo,
-  getAllVideos,
-  streamVideo,
-  deleteVideo,
-);
+  // Route definitions
+  videosRouter.post('/', (req, res) => videoController.create(req, res));
+  videosRouter.get('/', (req, res) => videoController.getAllVids(req, res));
+  videosRouter.get('/stream/:path', (req, res) =>
+    videoController.stream(req, res),
+  );
+  videosRouter.get('/watch', (req, res) => videoController.watch(req, res));
+  videosRouter.delete('/:id', (req, res) => videoController.delete(req, res));
 
-// Route definitions
-router.post('/', (req, res) => videoController.create(req, res));
-router.get('/', (req, res) => videoController.getAllVids(req, res));
-router.get('/stream/:path', (req, res) => videoController.stream(req, res));
-router.get('/watch', (req, res) => videoController.watch(req, res));
-router.delete('/:id', (req, res) => videoController.delete(req, res));
-
-export { router as videosRouter };
+  return videosRouter;
+}
