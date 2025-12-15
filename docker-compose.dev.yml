@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: video-streaming-server
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/server
+      - server_node_modules:/server/node_modules
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    command: npm run dev
+
+  postgres:
+    image: postgres:16
+    container_name: postgres-dev
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: videostreamingdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  server_node_modules:
